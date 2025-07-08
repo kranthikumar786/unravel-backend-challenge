@@ -143,7 +143,6 @@ public String add(@PathVariable String sessionId) { ... }
 
 ## 📄 Future Enhancements
 
-* Add TTL with `set(..., Duration.ofMinutes(30))`
 * Add monitoring (Redis usage metrics)
 * Move Redis configs to `application.properties`
 
