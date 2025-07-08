@@ -42,20 +42,20 @@ Previously, sessions were stored **in-memory**, which caused:
 Part-1/
 ├── pom.xml
 ├── src/
-│   ├── main/
-│   │   └── java/
-│   │       └── session/
-│   │           ├── Application.java
-│   │           ├── RedisConfig.java
-│   │           ├── RedisSessionManager.java
-│   │           └── SessionController.java
-│   ├── main/resources/
-│   │   └── application.properties
-│   └── test/
-│       └── java/
-│           └── session/
-│               ├── RedisSessionIntegrationTest.java
-│               └── RedisSessionManagerTest.java
+│ ├── main/
+│ │ └── java/
+│ │ └── session/
+│ │ ├── Application.java
+│ │ ├── RedisConfig.java
+│ │ ├── RedisSessionManager.java
+│ │ └── SessionController.java
+│ ├── main/resources/
+│ │ └── application.properties
+│ └── test/
+│ └── java/
+│ └── session/
+│ ├── RedisSessionIntegrationTest.java
+│ └── RedisSessionManagerTest.java
 
 ##  High-Level Design (HLD) 
 
