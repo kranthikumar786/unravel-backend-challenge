@@ -125,3 +125,34 @@ assertEquals(expectedSortedList, consumedList);
 | Modular design           | Comparator, model, processor, threads are decoupled |
 | Scalability              | Thread-safe, high-throughput ready design           |
 ---------------------------------------------------------------------------------------
+
+High-Level Design : 
+
+
+                           ┌────────────────────┐
+                           │     MainApp.java   │
+                           │ (Entry Point Class)│
+                           └────────┬───────────┘
+                                    │
+     ┌──────────────────────────────┼──────────────────────────────┐
+     ▼                              ▼                              ▼
+┌───────────────┐         ┌──────────────────┐           ┌──────────────────┐
+│ LogProducer   │         │ LogProcessor     │<────────┐ │ LogConsumer      │
+│ (Thread)      │◄────────│ (Shared Queue)   │         │ │ (Thread)         │
+└───────────────┘         │ - PriorityQueue  │         │ └──────────────────┘
+     ▲   ▲                │ - submit(task)   │         │
+     │   │                │ - consume()      │         │
+     │   │                └──────────────────┘         │
+     │   │                                             │
+     │   └────── Produces LogTask objects ─────────────┘
+     ▼
+┌────────────────────┐
+│ LogTask            │
+│ - message          │
+│ - type (INFO, ...) │
+│ - priority (int)   │
+│ - createdAt        │
+└────────────────────┘
+
+Comparator → LogTaskComparator (used by PriorityQueue):
+    Order by: Priority → Created Time
