@@ -30,6 +30,7 @@ Part-4-Deadlock-Fix/
 
 
 Flowchart  : 
+# DeadlockSafeSimulator Diagram
 +------------------------+
 |  DeadlockSafeSimulator |
 +-----------+------------+
@@ -53,9 +54,6 @@ Flowchart  :
                 |
             Releases Locks
 
-
-
----
 
 ## 📐 High-Level Design (HLD)
 
