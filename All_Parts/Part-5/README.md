@@ -59,7 +59,7 @@ Part-5-Connection-Pooling/
 Run the app
 
 Use Postman or JMeter to hit:
-GET http://localhost:9090/api/users/ping
+GET http://localhost:{portNumber}/api/users/ping
 
 ✔️ Automated Load Test
 File: HighConcurrencyTest.java
