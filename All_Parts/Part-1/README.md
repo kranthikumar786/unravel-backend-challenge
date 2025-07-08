@@ -37,6 +37,12 @@ Previously, sessions were stored **in-memory**, which caused:
 
 ---
 
+ ✅ Technology Stack
+Java 17
+Spring Boot 3.2.4
+Redis (via Lettuce)
+JUnit 5 (Testing)
+-----
 ## 📁 Project Structure
 
 Part-1/
