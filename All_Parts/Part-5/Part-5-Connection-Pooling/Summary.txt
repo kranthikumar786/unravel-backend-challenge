@@ -1,0 +1,102 @@
+Part-5-Connection-Pooling/
+├── pom.xml
+├── src/
+│   ├── main/
+│   │   └── java/
+│   │       └── com/
+│   │           └── part5/
+│   │               ├── Application.java
+│   │               ├── config/
+│   │               │   └── DataSourceConfig.java              <-- HikariCP setup
+│   │               ├── controller/
+│   │               │   └── UserController.java                <-- Sample endpoint
+│   │               └── monitor/
+│   │                   ├── HikariPoolInspector.java           <-- Exposes pool stats
+│   │                   └── HikariPoolMonitor.java             <-- @Scheduled logger
+│   └── test/
+│       └── java/
+│           └── com/
+│               └── part5/
+│                   └── concurrency/
+│                       └── HighConcurrencyTest.java          <-- JUnit 5 test
+└── src/
+    └── main/
+        └── resources/
+            └── application.properties                         <-- Port + Hikari config
+
+
+
+
+The system faces issues with database
+ connections under high concurrency, particularly during peak loads. You are required
+ to use HikariCP for database connection pooling, but you must also implement a
+ custom monitoring solution that logs when connections are waiting too long or are
+ being underutilized. Your solution should optimize pool size based on usage patterns,
+ and avoid simply increasing the pool size to resolve connection bottlenecks.
+
+
+
+
+ How Your Code Resolves the Issues
+1.  Using HikariCP for Pooling
+Configured via DataSourceConfig.java and application.properties
+
+Enables fast, efficient connection management
+
+Custom properties like maximum-pool-size, idle-timeout, max-lifetime are tuned
+
+
+2. 📊 Custom Monitoring with Logs
+HikariPoolMonitor.java is a @Scheduled component that:
+
+Uses HikariPoolMXBean to fetch live stats
+
+Logs:
+
+Active connections
+
+Idle connections
+
+Threads awaiting connections
+
+System.out.printf("Connections => Active: %d, Idle: %d, Waiting: %d%n", active, idle, awaiting);
+
+Detects:
+
+❗ Bottlenecks if many threads are waiting
+
+❗ Underutilization if pool is too idle
+
+3.  Real-Time Pool Stats via Endpoint
+HikariPoolInspector.java exposes pool stats on /api/monitor/pool
+
+Returns JSON with current connection pool metrics
+
+Helps track pool usage externally (e.g., Prometheus/Grafana or simple curl)
+
+ 4. Simulating Concurrency
+HighConcurrencyTest.java runs 50 parallel API requests
+
+Shows how the pool behaves under stress/load
+
+Helps you tune the pool empirically — e.g., if all threads are waiting, increase maximumPoolSize
+
+Strategic Takeaways
+
+
+| Goal                         |  Solution                                                                 |
+| ---------------------------- | ----------------------------------------------------------------------------- |
+| 🧵 Handle High Concurrency   | HikariCP with optimized properties                                            |
+| 👁️ Monitor in Real-Time     | `HikariPoolMonitor` + `@Scheduled` logging                                    |
+| 📡 On-Demand Inspection      | REST endpoint via `HikariPoolInspector`                                       |
+| 📉 Avoid Overprovisioning    | Tune pool size based on logs and test case behavior                           |
+| ⚙️ Performance-Driven Tuning | Backed by load simulation with 50 concurrent requests (`HighConcurrencyTest`) |
+
+ Summary
+✔️ You followed a diagnose–observe–tune approach
+✔️ Avoided the naive "increase pool size" shortcut
+✔️ Delivered custom monitoring, live stats & test validation
+✔️ Solution is scalable, extensible, and production-friendly
+
+
+
